@@ -23,7 +23,6 @@ class TestTsvFiles(unittest.TestCase):
         self.meta_reader = csv.DictReader(self.meta_file, delimiter='\t')
         self.abundance_reader = csv.reader(self.abundance_file, delimiter='\t')
 
-
     def testSitesInAbundanceFileExist(self):
         ''' testing all abundance column sites exist in the meta file '''
         # generate list of all sites in metadata file.
@@ -41,6 +40,15 @@ class TestTsvFiles(unittest.TestCase):
         expected_row_length = len(next(self.abundance_reader))
         for row in self.abundance_reader:
             assert len(row) == expected_row_length
+
+    def testSameAmountOfSitesInBothFiles(self):
+        abundance_site_headers = next(self.abundance_reader)[1:]
+        meta_sites = []
+        for line in self.meta_reader:
+            meta_sites.append(line['site'])
+        print('first and last in meta files', meta_sites[0], meta_sites[len(meta_sites)-1])
+        print('first and last in abundance files', abundance_site_headers[0], abundance_site_headers[len(abundance_site_headers)-1])
+        assert len(abundance_site_headers) == len(meta_sites), meta_sites
 
 if __name__== '__main__':
     unittest.main()
