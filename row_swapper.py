@@ -7,6 +7,7 @@ with open('./test_inputs/new-data/Gavin_water_metadata_2010_and_Ian_fungi_metada
     fieldnames = reader.fieldnames
     with open('./test_outputs/Gavin_water_metadata_2010_and_Ian_fungi_metadata-swapped.tsv', 'w') as output_file:
         dict_writer = DictWriter(f=output_file, fieldnames=fieldnames, delimiter='\t')
+        dict_writer.writeheader()
         for row in reader:
             original_row1_value, original_row2_value = row[row1], row[row2]
             print(original_row1_value, original_row2_value)
