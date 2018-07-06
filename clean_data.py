@@ -3,14 +3,12 @@ import os
 from pyproj import Proj, transform
 
 def append_file_name(path, append):
-    '''appends in a file name at the between the name and the extension'''
+    '''helper function appends in a file name at the between the name and the extension'''
     path_no_extension = path[:len(path)-4]+ append + '.tsv'
     print(path_no_extension)
     return path_no_extension
 
 def remove_duplicates(input_path):
-    output_file = open('./test_outputs/removed_duplicates.tsv', "w+")
-
     with open(input_path, 'r') as input_file:
         reader = csv.reader(input_file, delimiter='\t')
         output_meta_path = append_file_name(input_path, '_removed_duplicates')
@@ -31,6 +29,23 @@ def remove_duplicates(input_path):
                     taxons_entered.add(row[0])
             print('remove %d rows' % remove_count)
             print('total %d rows' % total_rows)
+        return output_meta_path
+
+def uppercase_data_headers(input_path):
+    with open(input_path, 'r') as input_metadata_file:
+        reader = csv.reader(input_metadata_file, delimiter='\t')
+        output_meta_path = append_file_name(input_path, '_uppercase_headers')
+        with open (output_meta_path, 'w') as output_data_file:
+            writer = csv.writer(output_data_file, delimiter='\t')
+            input_headers = next(reader)
+            uppercase_headers = []
+            for header in input_headers:
+                uppercase_headers.append(header.upper())
+            writer.writerow(uppercase_headers)
+            for input_row in reader:
+                writer.writerow(input_row)
+        return output_meta_path
+
 
 def uppercase_meta_sites(input_path):
     with open(input_path, 'r') as input_metadata_file:
@@ -114,4 +129,6 @@ f_meta = uppercase_meta_sites(f_meta)
 print(f_meta)
 
 f_data = remove_duplicates('./test_inputs/new-data/Gavin_water_data_2010_and_Ian_fungi_data.tsv')
+print(f_data)
+f_data = uppercase_data_headers(f_data)
 print(f_data)
