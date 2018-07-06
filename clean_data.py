@@ -8,6 +8,30 @@ def append_file_name(path, append):
     print(path_no_extension)
     return path_no_extension
 
+def remove_duplicates(input_path):
+    output_file = open('./test_outputs/removed_duplicates.tsv', "w+")
+
+    with open(input_path, 'r') as input_file:
+        reader = csv.reader(input_file, delimiter='\t')
+        output_meta_path = append_file_name(input_path, '_removed_duplicates')
+        with open(output_meta_path, 'w') as output_file:
+            writer = csv.writer(output_file, delimiter='\t')
+            # write the header
+            writer.writerow(next(reader))
+            taxons_entered = set()
+            total_rows = 0
+            remove_count = 0
+            for row in reader:
+                total_rows += 1
+                if row[0] in taxons_entered:
+                    remove_count += 1
+                    continue
+                else:
+                    writer.writerow(row)
+                    taxons_entered.add(row[0])
+            print('remove %d rows' % remove_count)
+            print('total %d rows' % total_rows)
+
 def uppercase_meta_sites(input_path):
     with open(input_path, 'r') as input_metadata_file:
         output_meta_path = append_file_name(input_path, '_uppercased')
@@ -82,9 +106,12 @@ def convert_coordinates(input_path):
                     writer.writerow(row)
         return output_meta_path
 
-f_out = convert_coordinates('./test_inputs/new-data/Gavin_water_metadata_2010_and_Ian_fungi_metadata.tsv')
-print(f_out)
-f_out = swap_rows(f_out)
-print(f_out)
-f_out = uppercase_meta_sites(f_out)
-print(f_out)
+f_meta = convert_coordinates('./test_inputs/new-data/Gavin_water_metadata_2010_and_Ian_fungi_metadata.tsv')
+print(f_meta)
+f_meta = swap_rows(f_meta)
+print(f_meta)
+f_meta = uppercase_meta_sites(f_meta)
+print(f_meta)
+
+f_data = remove_duplicates('./test_inputs/new-data/Gavin_water_data_2010_and_Ian_fungi_data.tsv')
+print(f_data)
