@@ -19,24 +19,24 @@ for fname in files:
         headers = next(input_reader)
         rows_checked = 0
         duplicate_count = 0
-        new_rows = {}
-        row_lookup = []
+        otu_row_dict = {}
+        otu_order = []
         for index, otu_row in enumerate(input_reader):
             rows_checked += 1
             otu_name = otu_row[0]
-            if otu_name in new_rows:
-                new_rows[otu_name] = sum_row_values(new_rows[otu_name], otu_row)
+            if otu_name in otu_row_dict:
+                otu_row_dict[otu_name] = sum_row_values(otu_row_dict[otu_name], otu_row)
                 duplicate_count += 1         
             else:
-                new_rows[otu_name] = otu_row
-            row_lookup.append(otu_name)
+                otu_row_dict[otu_name] = otu_row
+            otu_order.append(otu_name)
 
     with open('%s-removed_duplicates.tsv' % fname, "w+") as output_file:
         writer = csv.writer(output_file, delimiter="\t")
         writer.writerow(headers)
         # writer.writerows(new_rows)
-        for index in row_lookup:
-            writer.writerow(new_rows[index])
+        for index in otu_order:
+            writer.writerow(otu_row_dict[index])
 
     print('remove %d rows' % duplicate_count)
     print('total %d rows' % rows_checked)
