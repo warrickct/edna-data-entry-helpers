@@ -37,5 +37,5 @@ for fname in files:
         for index in otu_order:
             writer.writerow(otu_row_dict[index])
 
-    print('remove %d rows' % duplicate_count)
-    print('total %d rows' % rows_checked)
+    print('Rows combined: %d' % duplicate_count)
+    print('Rows checked: %d' % rows_checked)
