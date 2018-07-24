@@ -34,7 +34,6 @@ for fname in files:
     with open('%s-removed_duplicates.tsv' % fname, "w+") as output_file:
         writer = csv.writer(output_file, delimiter="\t")
         writer.writerow(headers)
-        # writer.writerows(new_rows)
         for index in otu_order:
             writer.writerow(otu_row_dict[index])
 
