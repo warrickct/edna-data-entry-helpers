@@ -21,7 +21,7 @@ for fname in files:
         duplicate_count = 0
         otu_row_dict = {}
         otu_order = []
-        for index, otu_row in enumerate(input_reader):
+        for otu_key, otu_row in enumerate(input_reader):
             rows_checked += 1
             otu_name = otu_row[0]
             if otu_name in otu_row_dict:
@@ -34,8 +34,8 @@ for fname in files:
     with open('%s-removed_duplicates.tsv' % fname, "w+") as output_file:
         writer = csv.writer(output_file, delimiter="\t")
         writer.writerow(headers)
-        for index in otu_order:
-            writer.writerow(otu_row_dict[index])
+        for otu_key in otu_order:
+            writer.writerow(otu_row_dict[otu_key])
 
     print('Rows combined: %d' % duplicate_count)
     print('Rows checked: %d' % rows_checked)
