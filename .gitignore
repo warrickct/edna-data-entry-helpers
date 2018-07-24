@@ -1,4 +1,4 @@
 .vscode/
 __pycache__
-test_inputs/new_data/
-test_outputs/
+test_inputs/new_data/*
+test_outputs/*
