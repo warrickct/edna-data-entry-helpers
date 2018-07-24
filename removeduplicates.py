@@ -1,12 +1,10 @@
 import csv
 import glob
 
-def make_writable_line(list):
-            return '\t'.join(str(value) for value in list) + '\n'
-
 def sum_row_values(r, r2):
-    print('r: ', len(r))
-    print('r2: ', len(r2))
+    '''
+    Goes through the values, adds them together and returns summed row.
+    '''
     new_row = []
     new_row.append(r[0])
     for index in range(1, len(r)):
