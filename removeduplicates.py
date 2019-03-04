@@ -20,11 +20,12 @@ def sum_row_values(r, r2):
 
 dev_test = False
 add_abundances = True
+
 if dev_test:
     files = glob.glob('.' + '/test_outputs/syrie_no_unassigned.tsv')
 else:
-    file_name = input("Enter file path from script name (with extension) to remove duplicates from: ")
-    files = glob.glob('.' + file_name)
+    directory_name = input("Enter full file path to directory to process: ")
+    files = glob.glob(directory_name)
     print(files)
 
     add_abundances_input = input("Do you want to \n[1] add abundances \nor \n[2] overwrite chronologically?: ")
